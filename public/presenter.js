@@ -11,7 +11,7 @@
   // Glow filter for high-frequency words
   const defs = svg.append('defs');
   const filter = defs.append('filter').attr('id', 'glow');
-  filter.append('feGaussianBlur').attr('stdDeviation', '4').attr('result', 'coloredBlur');
+  filter.append('feGaussianBlur').attr('stdDeviation', '5').attr('result', 'coloredBlur');
   const feMerge = filter.append('feMerge');
   feMerge.append('feMergeNode').attr('in', 'coloredBlur');
   feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
@@ -23,10 +23,13 @@
     };
   }
 
-  // Tuned for ~12 people, up to 5 responses each
-  // count 1=28px, 2=41px, 3=54px, 4=67px, 5+=80px
-  function fontSizeForCount(count) {
-    return Math.min(28 + (count - 1) * 13, 80);
+  // Dynamic sizing: fewer unique words = each word is massive.
+  // More unique words = shrink to fit. Frequency multiplies the base.
+  // Examples with 5 unique words: base≈110px, count2≈155px, count3≈200px(capped160)
+  // Examples with 20 unique words: base≈60px, count2≈84px, count3≈118px
+  function fontSizeForCount(count, totalUniqueWords) {
+    const base = Math.max(38, Math.min(120, 260 / Math.sqrt(totalUniqueWords + 1)));
+    return Math.min(Math.round(base * Math.pow(1.4, count - 1)), 160);
   }
 
   function setLiveOverlay(isLive) {
@@ -48,11 +51,14 @@
     group.attr('transform', `translate(${w / 2},${h / 2})`);
     layoutRunning = true;
 
+    const n = words.length;
+
     d3.layout.cloud()
       .size([w, h])
-      .words(words.map(d => ({ text: d.text, size: fontSizeForCount(d.count), count: d.count })))
-      .padding(6)
+      .words(words.map(d => ({ text: d.text, size: fontSizeForCount(d.count, n), count: d.count })))
+      .padding(4)
       .rotate(0)
+      .spiral('rectangular')
       .font('Inter, sans-serif')
       .fontWeight('700')
       .fontSize(d => d.size)
@@ -75,7 +81,7 @@
       .style('filter', d => d.count >= 3 ? 'url(#glow)' : 'none')
       .attr('font-size', d => `${d.size}px`)
       .style('opacity', 0)
-      .attr('transform', d => `translate(${d.x},${d.y + 60}) rotate(0)`)
+      .attr('transform', d => `translate(${d.x},${d.y + 80}) rotate(0)`)
       .text(d => d.text)
       .transition()
       .duration(700)
@@ -83,10 +89,10 @@
       .style('opacity', 1)
       .attr('transform', d => `translate(${d.x},${d.y}) rotate(0)`);
 
-    // Existing words — smooth size + position update
+    // Existing words — grow and reposition smoothly
     texts
       .transition()
-      .duration(500)
+      .duration(600)
       .ease(d3.easeQuadOut)
       .attr('fill', '#ffffff')
       .style('filter', d => d.count >= 3 ? 'url(#glow)' : 'none')
