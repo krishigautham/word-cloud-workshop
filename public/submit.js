@@ -1,6 +1,7 @@
 (function () {
   const MAX = 5;
   const STORAGE_KEY = 'wc_submissions';
+  const SESSION_KEY = 'wc_session_id';
 
   const socket = io();
 
@@ -56,14 +57,23 @@
 
   // ── Socket events ──────────────────────────────
 
-  socket.on('init', ({ isLive }) => {
+  function syncSession(sessionId) {
+    if (sessionId && localStorage.getItem(SESSION_KEY) !== sessionId) {
+      setCount(0);
+      localStorage.setItem(SESSION_KEY, sessionId);
+    }
+  }
+
+  socket.on('init', ({ isLive, sessionId }) => {
     if (!isLive) { showState('waiting'); return; }
+    syncSession(sessionId);
     const count = getCount();
     updateDots(count);
     showState(count >= MAX ? 'done' : 'form');
   });
 
-  socket.on('session_live', () => {
+  socket.on('session_live', ({ sessionId }) => {
+    syncSession(sessionId);
     const count = getCount();
     updateDots(count);
     showState(count >= MAX ? 'done' : 'form');

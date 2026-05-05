@@ -13,6 +13,11 @@ const ADMIN_PIN = process.env.ADMIN_PIN || '1234';
 // In-memory store
 let words = [];
 let isLive = false;
+let sessionId = null;
+
+function newSessionId() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2);
+}
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -42,7 +47,8 @@ app.post('/api/admin/go-live', (req, res) => {
   const { pin } = req.body;
   if (pin !== ADMIN_PIN) return res.status(401).json({ error: 'Falsche PIN' });
   isLive = true;
-  io.emit('session_live');
+  sessionId = newSessionId();
+  io.emit('session_live', { sessionId });
   res.json({ ok: true });
 });
 
@@ -74,7 +80,7 @@ app.get('/admin', (req, res) => {
 // --- Socket.io ---
 
 io.on('connection', (socket) => {
-  socket.emit('init', { words, isLive });
+  socket.emit('init', { words, isLive, sessionId });
 
   socket.on('submit_word', ({ text }) => {
     if (!isLive || !text || typeof text !== 'string') return;
