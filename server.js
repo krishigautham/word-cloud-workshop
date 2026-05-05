@@ -21,12 +21,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/api/submit', (req, res) => {
   const { text } = req.body;
-  if (!text || typeof text !== 'string') return res.status(400).json({ error: 'Invalid input' });
-  if (!isLive) return res.status(403).json({ error: 'Session not live' });
-
+  if (!text || typeof text !== 'string') return res.status(400).json({ error: 'Ungültige Eingabe' });
+  if (!isLive) return res.status(403).json({ error: 'Sitzung nicht live' });
   const cleaned = text.trim().slice(0, 60);
-  if (!cleaned) return res.status(400).json({ error: 'Empty input' });
-
+  if (!cleaned) return res.status(400).json({ error: 'Leere Eingabe' });
   addWord(cleaned);
   io.emit('word_added', { words });
   res.json({ ok: true });
@@ -34,7 +32,7 @@ app.post('/api/submit', (req, res) => {
 
 app.post('/api/admin/reset', (req, res) => {
   const { pin } = req.body;
-  if (pin !== ADMIN_PIN) return res.status(401).json({ error: 'Wrong PIN' });
+  if (pin !== ADMIN_PIN) return res.status(401).json({ error: 'Falsche PIN' });
   words = [];
   io.emit('reset');
   res.json({ ok: true });
@@ -42,7 +40,7 @@ app.post('/api/admin/reset', (req, res) => {
 
 app.post('/api/admin/go-live', (req, res) => {
   const { pin } = req.body;
-  if (pin !== ADMIN_PIN) return res.status(401).json({ error: 'Wrong PIN' });
+  if (pin !== ADMIN_PIN) return res.status(401).json({ error: 'Falsche PIN' });
   isLive = true;
   io.emit('session_live');
   res.json({ ok: true });
@@ -50,7 +48,7 @@ app.post('/api/admin/go-live', (req, res) => {
 
 app.post('/api/admin/end-live', (req, res) => {
   const { pin } = req.body;
-  if (pin !== ADMIN_PIN) return res.status(401).json({ error: 'Wrong PIN' });
+  if (pin !== ADMIN_PIN) return res.status(401).json({ error: 'Falsche PIN' });
   isLive = false;
   words = [];
   io.emit('session_ended');
@@ -89,11 +87,43 @@ io.on('connection', (socket) => {
 
 // --- Helpers ---
 
+function levenshtein(a, b) {
+  const m = a.length, n = b.length;
+  const dp = Array.from({ length: m + 1 }, (_, i) =>
+    Array.from({ length: n + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0))
+  );
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      dp[i][j] = a[i - 1] === b[j - 1]
+        ? dp[i - 1][j - 1]
+        : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+    }
+  }
+  return dp[m][n];
+}
+
+function normalize(text) {
+  return text.toLowerCase().replace(/\s+/g, '').replace(/[.,\-_]/g, '');
+}
+
+function findSimilarWord(text) {
+  const norm = normalize(text);
+  for (const w of words) {
+    const wNorm = normalize(w.text);
+    if (wNorm === norm) return w;
+    const longer = Math.max(norm.length, wNorm.length);
+    if (longer >= 5) {
+      const threshold = longer >= 10 ? 3 : longer >= 6 ? 2 : 1;
+      if (levenshtein(norm, wNorm) <= threshold) return w;
+    }
+  }
+  return null;
+}
+
 function addWord(text) {
-  const normalized = text.toLowerCase();
-  const existing = words.find(w => w.text.toLowerCase() === normalized);
-  if (existing) {
-    existing.count += 1;
+  const similar = findSimilarWord(text);
+  if (similar) {
+    similar.count += 1;
   } else {
     words.push({ text, count: 1 });
   }

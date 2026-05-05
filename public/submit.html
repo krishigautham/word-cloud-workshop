@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Share Your Idea</title>
+  <title>Deine Idee teilen</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="submit-body">
@@ -14,32 +14,34 @@
       <!-- Header -->
       <div class="submit-header">
         <div class="submit-dot"></div>
-        <h1>Share Your Idea</h1>
-        <p class="submit-question">Where do you see potential use cases for generative AI in your daily work?</p>
+        <h1>Deine Idee teilen</h1>
+        <p class="submit-question">Wo siehst du Potenzial für generative KI in deiner täglichen Arbeit?</p>
       </div>
 
       <!-- Not-live state -->
       <div id="waiting-section" style="display:none;">
         <div class="waiting-icon">⏳</div>
-        <h2>Session not started yet</h2>
-        <p>The host will open the session shortly.<br/>This page will update automatically.</p>
+        <h2>Sitzung noch nicht gestartet</h2>
+        <p>Der Host öffnet die Sitzung gleich.<br/>Diese Seite aktualisiert sich automatisch.</p>
       </div>
 
       <!-- Session ended state -->
       <div id="ended-section" style="display:none;">
         <div class="done-icon">✓</div>
-        <h2>Session ended</h2>
-        <p>Thanks for participating!</p>
+        <h2>Sitzung beendet</h2>
+        <p>Danke fürs Mitmachen!</p>
       </div>
 
       <!-- Form -->
       <div id="form-section">
         <div class="submissions-left-bar">
-          <span id="slots-used">0</span> / 3 responses submitted
+          <span id="slots-used">0</span> / 5 Antworten eingereicht
           <div class="slots-dots">
             <span class="slot-dot" id="dot-1"></span>
             <span class="slot-dot" id="dot-2"></span>
             <span class="slot-dot" id="dot-3"></span>
+            <span class="slot-dot" id="dot-4"></span>
+            <span class="slot-dot" id="dot-5"></span>
           </div>
         </div>
 
@@ -48,12 +50,12 @@
             type="text"
             id="word-input"
             maxlength="60"
-            placeholder="Type a word or short phrase..."
+            placeholder="Ein Wort oder kurzen Satz eingeben..."
             autocomplete="off"
             autocorrect="off"
             spellcheck="false"
           />
-          <button type="submit" id="submit-btn">Submit</button>
+          <button type="submit" id="submit-btn">Absenden</button>
         </form>
 
         <p class="char-count"><span id="char-num">0</span> / 60</p>
@@ -62,9 +64,9 @@
       <!-- Done state -->
       <div id="done-section" style="display:none;">
         <div class="done-icon">✓</div>
-        <h2>Thanks for contributing!</h2>
-        <p>Your responses are now live on the word cloud.</p>
-        <p class="done-sub">You've used all 3 submissions.</p>
+        <h2>Danke für deinen Beitrag!</h2>
+        <p>Deine Antworten sind jetzt live in der Wortwolke.</p>
+        <p class="done-sub">Du hast alle 5 Antworten verwendet.</p>
       </div>
 
       <!-- Toast notification -->

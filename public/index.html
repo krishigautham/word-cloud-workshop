@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Word Cloud</title>
+  <title>Wortwolke</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="presenter-body">
@@ -12,8 +12,8 @@
   <div id="prelive-overlay">
     <div id="prelive-content">
       <div class="prelive-dot"></div>
-      <h2>Session not started</h2>
-      <p>The admin will go live shortly</p>
+      <h2>Sitzung noch nicht gestartet</h2>
+      <p>Der Admin startet die Sitzung gleich</p>
     </div>
   </div>
 
@@ -21,8 +21,8 @@
   <div id="cloud-container">
     <svg id="cloud-svg"></svg>
     <div id="empty-state">
-      <p>Waiting for responses...</p>
-      <span>Participants can scan the QR code to submit</span>
+      <p>Warte auf Antworten...</p>
+      <span>Teilnehmer können den QR-Code scannen</span>
     </div>
   </div>
 
@@ -30,12 +30,12 @@
   <div id="qr-panel">
     <div id="qr-box" onclick="openQRFullscreen()">
       <div id="qr-code"></div>
-      <p id="qr-label">Scan to participate</p>
-      <span id="qr-hint">Click to enlarge</span>
+      <p id="qr-label">Scannen zum Mitmachen</p>
+      <span id="qr-hint">Klicken zum Vergrößern</span>
     </div>
     <div id="word-count-badge">
       <span id="word-count">0</span>
-      <small>responses</small>
+      <small>Antworten</small>
     </div>
   </div>
 
@@ -44,7 +44,7 @@
     <div id="qr-overlay-box">
       <div id="qr-overlay-code"></div>
       <p id="qr-overlay-url"></p>
-      <span>Tap anywhere to close</span>
+      <span>Tippen zum Schließen</span>
     </div>
   </div>
 

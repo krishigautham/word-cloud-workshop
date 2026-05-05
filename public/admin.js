@@ -74,7 +74,7 @@
       resetWrap.style.display = 'block';
     } else {
       sessionStatus.className = 'session-status offline';
-      statusLabel.textContent = 'Not live';
+      statusLabel.textContent = 'Nicht live';
       goLiveBtn.style.display = 'block';
       endLiveWrap.style.display = 'none';
       resetWrap.style.display = 'none';
@@ -87,7 +87,7 @@
 
   goLiveBtn.addEventListener('click', () => {
     goLiveBtn.disabled = true;
-    goLiveBtn.textContent = 'Starting...';
+    goLiveBtn.textContent = 'Startet...';
 
     fetch('/api/admin/go-live', {
       method: 'POST',
@@ -97,8 +97,8 @@
       .then(r => r.json())
       .then(data => {
         goLiveBtn.disabled = false;
-        goLiveBtn.textContent = 'Go Live';
-        if (data.ok) showAdminToast('Session is now live!', 'success');
+        goLiveBtn.textContent = 'Live gehen';
+        if (data.ok) showAdminToast('Sitzung ist jetzt live!', 'success');
       });
   });
 
@@ -106,7 +106,7 @@
 
   endLiveBtn.addEventListener('click', () => {
     endLiveBtn.disabled = true;
-    endLiveBtn.textContent = 'Ending...';
+    endLiveBtn.textContent = 'Wird beendet...';
 
     fetch('/api/admin/end-live', {
       method: 'POST',
@@ -116,10 +116,10 @@
       .then(r => r.json())
       .then(data => {
         endLiveBtn.disabled = false;
-        endLiveBtn.textContent = 'End Session';
+        endLiveBtn.textContent = 'Sitzung beenden';
         if (data.ok) {
           adminWordCount.textContent = '0';
-          showAdminToast('Session ended and cleared', 'info');
+          showAdminToast('Sitzung beendet und geleert', 'info');
         }
       });
   });
@@ -148,7 +148,7 @@
           resetConfirm.style.display = 'none';
           resetBtn.style.display = 'block';
           adminWordCount.textContent = '0';
-          showAdminToast('Word cloud cleared', 'success');
+          showAdminToast('Wortwolke geleert', 'success');
         }
       });
   });

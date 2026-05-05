@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,15 +13,15 @@
 
       <!-- PIN gate -->
       <div id="pin-section">
-        <h2>Admin Access</h2>
-        <p>Enter your PIN to continue</p>
+        <h2>Admin-Zugang</h2>
+        <p>PIN eingeben um fortzufahren</p>
         <div class="pin-inputs">
           <input class="pin-digit" type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" />
           <input class="pin-digit" type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" />
           <input class="pin-digit" type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" />
           <input class="pin-digit" type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" />
         </div>
-        <p id="pin-error" class="pin-error" style="display:none;">Incorrect PIN</p>
+        <p id="pin-error" class="pin-error" style="display:none;">Falsche PIN</p>
       </div>
 
       <!-- Admin panel -->
@@ -30,36 +30,36 @@
         <!-- Status indicator -->
         <div id="session-status" class="session-status offline">
           <div class="status-dot"></div>
-          <span id="status-label">Not live</span>
+          <span id="status-label">Nicht live</span>
         </div>
 
         <!-- Response count -->
         <div class="admin-stat">
           <span id="admin-word-count">0</span>
-          <small>total responses</small>
+          <small>Antworten gesamt</small>
         </div>
 
         <!-- Go Live button -->
         <button id="go-live-btn" class="go-live-button">
-          Go Live
+          Live gehen
         </button>
 
         <!-- End Live button (hidden until live) -->
         <div id="end-live-wrap" style="display:none;">
           <button id="end-live-btn" class="end-live-button">
-            End Session
+            Sitzung beenden
           </button>
-          <p class="admin-hint">This will end the session and clear all responses.</p>
+          <p class="admin-hint">Dies beendet die Sitzung und löscht alle Antworten.</p>
         </div>
 
         <!-- Reset (only when live) -->
         <div id="reset-wrap" style="display:none;">
-          <button id="reset-btn" class="reset-button">Clear Word Cloud</button>
+          <button id="reset-btn" class="reset-button">Wortwolke leeren</button>
           <div id="reset-confirm" style="display:none;" class="confirm-box">
-            <p>Clear all words? This cannot be undone.</p>
+            <p>Alle Wörter löschen? Dies kann nicht rückgängig gemacht werden.</p>
             <div class="confirm-actions">
-              <button id="confirm-yes" class="btn-danger">Yes, clear</button>
-              <button id="confirm-no" class="btn-cancel">Cancel</button>
+              <button id="confirm-yes" class="btn-danger">Ja, löschen</button>
+              <button id="confirm-no" class="btn-cancel">Abbrechen</button>
             </div>
           </div>
         </div>

@@ -248,10 +248,11 @@ body {
 .submissions-left-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   font-size: 12px;
   color: var(--text-muted);
   margin-bottom: 16px;
+  flex-wrap: wrap;
 }
 
 .slots-dots {

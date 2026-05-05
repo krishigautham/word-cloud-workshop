@@ -1,5 +1,5 @@
 (function () {
-  const MAX = 3;
+  const MAX = 5;
   const STORAGE_KEY = 'wc_submissions';
 
   const socket = io();
@@ -25,7 +25,7 @@
   }
 
   function updateDots(count) {
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= MAX; i++) {
       document.getElementById(`dot-${i}`).classList.toggle('filled', i <= count);
     }
     slotsUsed.textContent = count;
@@ -57,10 +57,7 @@
   // ── Socket events ──────────────────────────────
 
   socket.on('init', ({ isLive }) => {
-    if (!isLive) {
-      showState('waiting');
-      return;
-    }
+    if (!isLive) { showState('waiting'); return; }
     const count = getCount();
     updateDots(count);
     showState(count >= MAX ? 'done' : 'form');
@@ -70,17 +67,15 @@
     const count = getCount();
     updateDots(count);
     showState(count >= MAX ? 'done' : 'form');
-    showToast('Session is live — submit your idea!', 'success');
+    showToast('Sitzung ist live – teile deine Idee!', 'success');
   });
 
-  socket.on('session_ended', () => {
-    showState('ended');
-  });
+  socket.on('session_ended', () => showState('ended'));
 
   socket.on('reset', () => {
     setCount(0);
     updateDots(0);
-    showToast('Session reset — you can submit again', 'info');
+    showToast('Sitzung zurückgesetzt – du kannst erneut antworten', 'info');
   });
 
   // ── Character counter ──────────────────────────
@@ -96,18 +91,15 @@
 
     const text = input.value.trim();
     if (!text) {
-      showToast('Please type something first', 'error');
+      showToast('Bitte zuerst etwas eingeben', 'error');
       return;
     }
 
     let count = getCount();
-    if (count >= MAX) {
-      showState('done');
-      return;
-    }
+    if (count >= MAX) { showState('done'); return; }
 
     btn.disabled = true;
-    btn.textContent = 'Sending...';
+    btn.textContent = 'Wird gesendet...';
     socket.emit('submit_word', { text });
 
     count += 1;
@@ -115,11 +107,11 @@
     updateDots(count);
     input.value = '';
     charNum.textContent = '0';
-    showToast('Response added to the cloud!');
+    showToast('Antwort zur Wortwolke hinzugefügt!');
 
     setTimeout(() => {
       btn.disabled = false;
-      btn.textContent = 'Submit';
+      btn.textContent = 'Absenden';
       if (count >= MAX) showState('done');
     }, 600);
   });
