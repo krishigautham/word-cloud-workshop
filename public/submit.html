@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Share Your Idea</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="submit-body">
+
+  <div class="submit-wrapper">
+    <div class="submit-card">
+
+      <!-- Header -->
+      <div class="submit-header">
+        <div class="submit-dot"></div>
+        <h1>Share Your Idea</h1>
+        <p class="submit-question">Where do you see potential use cases for generative AI in your daily work?</p>
+      </div>
+
+      <!-- Not-live state -->
+      <div id="waiting-section" style="display:none;">
+        <div class="waiting-icon">⏳</div>
+        <h2>Session not started yet</h2>
+        <p>The host will open the session shortly.<br/>This page will update automatically.</p>
+      </div>
+
+      <!-- Session ended state -->
+      <div id="ended-section" style="display:none;">
+        <div class="done-icon">✓</div>
+        <h2>Session ended</h2>
+        <p>Thanks for participating!</p>
+      </div>
+
+      <!-- Form -->
+      <div id="form-section">
+        <div class="submissions-left-bar">
+          <span id="slots-used">0</span> / 3 responses submitted
+          <div class="slots-dots">
+            <span class="slot-dot" id="dot-1"></span>
+            <span class="slot-dot" id="dot-2"></span>
+            <span class="slot-dot" id="dot-3"></span>
+          </div>
+        </div>
+
+        <form id="submit-form">
+          <input
+            type="text"
+            id="word-input"
+            maxlength="60"
+            placeholder="Type a word or short phrase..."
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+          />
+          <button type="submit" id="submit-btn">Submit</button>
+        </form>
+
+        <p class="char-count"><span id="char-num">0</span> / 60</p>
+      </div>
+
+      <!-- Done state -->
+      <div id="done-section" style="display:none;">
+        <div class="done-icon">✓</div>
+        <h2>Thanks for contributing!</h2>
+        <p>Your responses are now live on the word cloud.</p>
+        <p class="done-sub">You've used all 3 submissions.</p>
+      </div>
+
+      <!-- Toast notification -->
+      <div id="toast"></div>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="submit.js"></script>
+</body>
+</html>

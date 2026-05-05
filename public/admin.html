@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="admin-body">
+
+  <div class="admin-wrapper">
+    <div class="admin-card">
+
+      <!-- PIN gate -->
+      <div id="pin-section">
+        <h2>Admin Access</h2>
+        <p>Enter your PIN to continue</p>
+        <div class="pin-inputs">
+          <input class="pin-digit" type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+          <input class="pin-digit" type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+          <input class="pin-digit" type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+          <input class="pin-digit" type="password" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+        </div>
+        <p id="pin-error" class="pin-error" style="display:none;">Incorrect PIN</p>
+      </div>
+
+      <!-- Admin panel -->
+      <div id="admin-section" style="display:none;">
+
+        <!-- Status indicator -->
+        <div id="session-status" class="session-status offline">
+          <div class="status-dot"></div>
+          <span id="status-label">Not live</span>
+        </div>
+
+        <!-- Response count -->
+        <div class="admin-stat">
+          <span id="admin-word-count">0</span>
+          <small>total responses</small>
+        </div>
+
+        <!-- Go Live button -->
+        <button id="go-live-btn" class="go-live-button">
+          Go Live
+        </button>
+
+        <!-- End Live button (hidden until live) -->
+        <div id="end-live-wrap" style="display:none;">
+          <button id="end-live-btn" class="end-live-button">
+            End Session
+          </button>
+          <p class="admin-hint">This will end the session and clear all responses.</p>
+        </div>
+
+        <!-- Reset (only when live) -->
+        <div id="reset-wrap" style="display:none;">
+          <button id="reset-btn" class="reset-button">Clear Word Cloud</button>
+          <div id="reset-confirm" style="display:none;" class="confirm-box">
+            <p>Clear all words? This cannot be undone.</p>
+            <div class="confirm-actions">
+              <button id="confirm-yes" class="btn-danger">Yes, clear</button>
+              <button id="confirm-no" class="btn-cancel">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div id="admin-toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
