@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Word Cloud</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="presenter-body">
+
+  <!-- Pre-live overlay -->
+  <div id="prelive-overlay">
+    <div id="prelive-content">
+      <div class="prelive-dot"></div>
+      <h2>Session not started</h2>
+      <p>The admin will go live shortly</p>
+    </div>
+  </div>
+
+  <!-- Word cloud canvas -->
+  <div id="cloud-container">
+    <svg id="cloud-svg"></svg>
+    <div id="empty-state">
+      <p>Waiting for responses...</p>
+      <span>Participants can scan the QR code to submit</span>
+    </div>
+  </div>
+
+  <!-- QR code panel -->
+  <div id="qr-panel">
+    <div id="qr-box" onclick="openQRFullscreen()">
+      <div id="qr-code"></div>
+      <p id="qr-label">Scan to participate</p>
+      <span id="qr-hint">Click to enlarge</span>
+    </div>
+    <div id="word-count-badge">
+      <span id="word-count">0</span>
+      <small>responses</small>
+    </div>
+  </div>
+
+  <!-- QR fullscreen overlay -->
+  <div id="qr-overlay" onclick="closeQRFullscreen()">
+    <div id="qr-overlay-box">
+      <div id="qr-overlay-code"></div>
+      <p id="qr-overlay-url"></p>
+      <span>Tap anywhere to close</span>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-cloud/1.2.5/d3.layout.cloud.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="presenter.js"></script>
+</body>
+</html>
